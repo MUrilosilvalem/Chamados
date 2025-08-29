@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Inter,system-ui,sans-serif;background:#f9fafb;color:#111827}
+    body{font-family:Inter,sans-serif;background:#f9fafb;color:#111827}
     header{background:#fff;border-bottom:1px solid #e5e7eb;text-align:center;padding:18px}
     header img{max-height:80px}
     nav{display:flex;justify-content:flex-end;gap:12px;padding:12px 20px;background:#fff;border-bottom:1px solid #e5e7eb}
@@ -16,24 +16,31 @@
     .card{background:#fff;border-radius:14px;padding:28px;max-width:760px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
     h1{color:#1d4ed8;margin-bottom:6px;text-align:center}
     p.lead{color:#4b5563;margin-bottom:18px;text-align:center}
-    form{display:grid;gap:12px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    form{display:grid;gap:16px}
     label{font-weight:600;color:#374151}
-    input,select,textarea{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px;font-size:14px}
+    input,select,textarea{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}
     textarea{min-height:100px;resize:vertical}
-    .priority-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-    .priority-btn{padding:8px 12px;border-radius:999px;border:1px solid #e5e7eb;cursor:pointer;font-weight:700}
-    .priority-btn.selected{box-shadow:inset 0 -3px 0 rgba(0,0,0,0.06)}
-    .btn{background:#2563eb;color:#fff;padding:12px;border-radius:10px;border:none;font-weight:800;cursor:pointer;margin-top:6px}
+    .priority-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .priority-btn{padding:10px 18px;border-radius:20px;border:2px solid #d1d5db;cursor:pointer;font-weight:700;background:#fff}
+    .priority-btn.baixa{border-color:#16a34a;color:#16a34a}
+    .priority-btn.media{border-color:#facc15;color:#ca8a04}
+    .priority-btn.alta{border-color:#f97316;color:#c2410c}
+    .priority-btn.critica{border-color:#dc2626;color:#991b1b}
+    .priority-btn.selected.baixa{background:#16a34a;color:#fff}
+    .priority-btn.selected.media{background:#facc15;color:#fff}
+    .priority-btn.selected.alta{background:#f97316;color:#fff}
+    .priority-btn.selected.critica{background:#dc2626;color:#fff}
+    .btn{background:#2563eb;color:#fff;padding:12px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
     .btn:disabled{opacity:.6;cursor:not-allowed}
     .msg{padding:12px;border-radius:8px;margin-top:12px;display:none}
     .msg.success{background:#d1fae5;color:#065f46;border:1px solid #bbf7d0}
     .msg.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-    @media(max-width:720px){.row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <header><img src="https://raw.githubusercontent.com/MUrilosilvalem/Chamados/refs/heads/main/Logo%20antiga%20com%20a%20nova%20-%201.png" alt="Logo Castro Laboratório"></header>
+  <header>
+    <img src="https://raw.githubusercontent.com/MUrilosilvalem/Chamados/refs/heads/main/Logo%20antiga%20com%20a%20nova%20-%201.png" alt="Logo Castro Laboratório">
+  </header>
   <nav>
     <a href="./index.html">🏠 Início</a>
     <a href="./registrar_chamado.html">🚀 Registrar</a>
@@ -43,147 +50,122 @@
   <main>
     <div class="card">
       <h1>Registrar Chamado</h1>
-      <p class="lead">Preencha o formulário e envie — o departamento será notificado automaticamente</p>
+      <p class="lead">Preencha o formulário e envie seu chamado</p>
 
       <form id="ticketForm" novalidate>
-        <div class="row">
-          <div>
-            <label for="nome">Nome</label>
-            <input id="nome" name="nome" type="text" required placeholder="Seu nome completo">
-          </div>
-          <div>
-            <label for="servico">Serviço</label>
-            <select id="servico" name="servico" required>
-              <option value="">Selecione...</option>
-              <option value="ti">TI</option>
-              <option value="manutencao">Manutenção</option>
-              <option value="limpeza">Limpeza</option>
-              <option value="rh">Recursos Humanos</option>
-            </select>
-          </div>
-        </div>
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" type="text" required placeholder="Seu nome completo">
+
+        <label for="servico">Serviço</label>
+        <select id="servico" name="servico" required>
+          <option value="">Selecione...</option>
+          <option value="ti">💻 TI</option>
+          <option value="manutencao">🔧 Manutenção</option>
+          <option value="limpeza">🧹 Limpeza</option>
+          <option value="rh">👥 Recursos Humanos</option>
+        </select>
 
         <label for="local">Local</label>
         <select id="local" name="local" required>
           <option value="">Selecione...</option>
-          <option value="matriz">Matriz</option>
-          <option value="posto_santa_cruz">Posto Santa Cruz</option>
-          <option value="posto_avenida_brasilia">Posto Avenida Brasília</option>
+          <option value="matriz">🏢 Matriz</option>
+          <option value="posto_santa_cruz">📍 Posto Santa Cruz</option>
+          <option value="posto_avenida_brasilia">📍 Posto Avenida Brasília</option>
         </select>
 
         <label>Prioridade</label>
-        <div class="priority-group" id="priorityGroup" role="tablist" aria-label="Prioridade">
-          <button type="button" class="priority-btn" data-priority="baixa">Baixa</button>
-          <button type="button" class="priority-btn" data-priority="media">Média</button>
-          <button type="button" class="priority-btn" data-priority="alta">Alta</button>
-          <button type="button" class="priority-btn" data-priority="critica">Crítica</button>
+        <div class="priority-group" id="priorityGroup">
+          <div class="priority-btn baixa" data-priority="baixa">🟢 Baixa</div>
+          <div class="priority-btn media" data-priority="media">🟡 Média</div>
+          <div class="priority-btn alta" data-priority="alta">🟠 Alta</div>
+          <div class="priority-btn critica" data-priority="critica">🔴 Crítica</div>
         </div>
 
         <label for="descricao">Descrição</label>
-        <textarea id="descricao" name="descricao" required placeholder="Descreva o problema com o máximo de detalhes"></textarea>
+        <textarea id="descricao" name="descricao" required placeholder="Descreva detalhadamente o problema"></textarea>
 
         <button id="submitBtn" type="submit" class="btn">🚀 Enviar Chamado</button>
 
-        <div id="successMsg" class="msg success" role="status"></div>
-        <div id="errorMsg" class="msg error" role="alert"></div>
+        <div id="successMsg" class="msg success"></div>
+        <div id="errorMsg" class="msg error"></div>
       </form>
     </div>
   </main>
 
   <script>
-    (function(){
-      const form = document.getElementById('ticketForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const successMsg = document.getElementById('successMsg');
-      const errorMsg = document.getElementById('errorMsg');
-      const priorityGroup = document.getElementById('priorityGroup');
-      let selectedPriority = null;
+    const form = document.getElementById('ticketForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    const priorityBtns = document.querySelectorAll('.priority-btn');
+    let selectedPriority = null;
 
-      // Priority selection
-      priorityGroup.querySelectorAll('.priority-btn').forEach(btn=>{
-        btn.addEventListener('click', () => {
-          priorityGroup.querySelectorAll('.priority-btn').forEach(b=>b.classList.remove('selected'));
-          btn.classList.add('selected');
-          selectedPriority = btn.dataset.priority;
+    priorityBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        priorityBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedPriority = btn.dataset.priority;
+      });
+    });
+
+    function generateTicketId() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const rand = Math.floor(Math.random() * 9000) + 1000;
+      return `#${year}${rand}`;
+    }
+
+    function showSuccess(text){
+      successMsg.textContent = text;
+      successMsg.style.display = 'block';
+      errorMsg.style.display = 'none';
+    }
+    function showError(text){
+      errorMsg.textContent = text;
+      errorMsg.style.display = 'block';
+      successMsg.style.display = 'none';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if(!form.nome.value || !form.servico.value || !form.local.value || !form.descricao.value || !selectedPriority){
+        showError("Preencha todos os campos e selecione a prioridade.");
+        return;
+      }
+
+      const ticketId = generateTicketId();
+      const payload = {
+        ticket_id: ticketId,
+        timestamp: new Date().toISOString(),
+        nome: form.nome.value,
+        servico: form.servico.value,
+        local: form.local.value,
+        descricao: form.descricao.value,
+        prioridade: selectedPriority
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+
+      try {
+        const res = await fetch("https://evolution-lab-n8n.jxj99o.easypanel.host/webhook/chamados", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
-      });
 
-      function generateTicketId() {
-        const d = new Date();
-        const year = d.getFullYear();
-        const rand = Math.floor(Math.random()*9000)+1000;
-        return `#${year}${rand}`;
+        if(!res.ok) throw new Error("Erro ao enviar chamado: " + res.status);
+        showSuccess(`✅ Chamado ${ticketId} registrado com sucesso!`);
+        form.reset();
+        priorityBtns.forEach(b => b.classList.remove('selected'));
+        selectedPriority = null;
+      } catch (err){
+        showError("❌ Falha: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "🚀 Enviar Chamado";
       }
-
-      function showSuccess(text){
-        successMsg.textContent = text;
-        successMsg.style.display = 'block';
-        errorMsg.style.display = 'none';
-      }
-      function showError(text){
-        errorMsg.textContent = text;
-        errorMsg.style.display = 'block';
-        successMsg.style.display = 'none';
-      }
-
-      form.addEventListener('submit', async (ev) => {
-        ev.preventDefault();
-        // validation
-        const nome = form.nome.value.trim();
-        const servico = form.servico.value;
-        const local = form.local.value;
-        const descricao = form.descricao.value.trim();
-
-        if(!nome || !servico || !local || !descricao || !selectedPriority){
-          showError('Preencha todos os campos e selecione uma prioridade.');
-          return;
-        }
-
-        const ticketId = generateTicketId();
-        const payload = {
-          ticket_id: ticketId,
-          timestamp: new Date().toISOString(),
-          nome, servico, local, descricao,
-          prioridade: selectedPriority
-        };
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Enviando...';
-
-        try {
-          const webhookUrl = 'https://evolution-lab-n8n.jxj99o.easypanel.host/webhook/chamados'; // ajuste se necessário
-          const res = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            credentials: 'omit' // deixar omit a não ser que necessite cookies
-          });
-
-          // Verifica status HTTP
-          if (!res.ok) {
-            const txt = await res.text().catch(()=>null);
-            throw new Error('Servidor retornou status ' + res.status + (txt ? (' — ' + txt) : ''));
-          }
-
-          showSuccess(`✅ Chamado ${ticketId} registrado com sucesso. O setor responsável foi notificado.`);
-          form.reset();
-          selectedPriority = null;
-          priorityGroup.querySelectorAll('.priority-btn').forEach(b=>b.classList.remove('selected'));
-
-        } catch (err) {
-          console.error('Erro ao enviar chamado:', err);
-          // Possível CORS / network error
-          if (err instanceof TypeError) {
-            showError('Falha na requisição — verifique conexão ou CORS. Abra o console (F12) para mais detalhes.');
-          } else {
-            showError('Erro ao registrar chamado: ' + err.message);
-          }
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = '🚀 Enviar Chamado';
-        }
-      });
-    })();
+    });
   </script>
 </body>
 </html>
