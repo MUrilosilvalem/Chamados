@@ -1,106 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Consulta de Chamados</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Consultar Chamados</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-      color: #1f2937;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      border-bottom: 1px solid #e5e7eb;
-      background: white;
-    }
-    header img { max-height: 80px; }
-    nav {
-      text-align: right;
-      padding: 10px 20px;
-      background: #fff;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    nav a {
-      margin-left: 15px;
-      text-decoration: none;
-      font-weight: 600;
-      color: #2563eb;
-    }
-    main {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 140px);
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      max-width: 600px;
-      width: 100%;
-    }
-    h1 { color: #1d4ed8; margin-bottom: 16px; text-align:center; }
-    p.lead { color: #4b5563; margin-bottom: 24px; text-align:center; }
-    form { display: grid; gap: 16px; }
-    label { font-weight: 600; }
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      margin-top: 6px;
-    }
-    .btn {
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      background: #2563eb;
-      color: white;
-      font-weight: 600;
-      font-size: 16px;
-      text-decoration: none;
-      transition: background 0.2s ease;
-      cursor:pointer;
-    }
-    .btn:hover { background: #1e40af; }
-    .result {
-      margin-top: 20px;
-      padding: 20px;
-      background: #f3f4f6;
-      border-radius: 10px;
-      min-height: 60px;
-      color:#374151;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:#f9fafb;color:#111827}
+    header{background:#fff;border-bottom:1px solid #e5e7eb;text-align:center;padding:18px}
+    header img{max-height:80px}
+    nav{display:flex;justify-content:flex-end;gap:12px;padding:12px 20px;background:#fff;border-bottom:1px solid #e5e7eb}
+    nav a{text-decoration:none;color:#2563eb;font-weight:600}
+    main{min-height:calc(100vh - 140px);display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{background:#fff;border-radius:14px;padding:28px;max-width:760px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+    h1{color:#1d4ed8;margin-bottom:6px;text-align:center}
+    p.lead{color:#4b5563;margin-bottom:18px;text-align:center}
+    form{display:grid;gap:12px}
+    label{font-weight:600;color:#374151}
+    input{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}
+    .btn{background:#2563eb;color:#fff;padding:12px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+    .result{margin-top:16px;padding:16px;background:#f3f4f6;border-radius:10px;min-height:80px;color:#374151}
+    .msg{padding:10px;border-radius:8px;margin-top:12px;display:none}
+    .msg.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://raw.githubusercontent.com/MUrilosilvalem/Chamados/refs/heads/main/Logo%20antiga%20com%20a%20nova%20-%201.png" alt="Logo Castro Laboratório">
-  </header>
+  <header><img src="https://raw.githubusercontent.com/MUrilosilvalem/Chamados/refs/heads/main/Logo%20antiga%20com%20a%20nova%20-%201.png" alt="Logo Castro Laboratório"></header>
   <nav>
     <a href="./index.html">🏠 Início</a>
     <a href="./registrar_chamado.html">🚀 Registrar</a>
     <a href="./consultar_chamados.html">📊 Consultar</a>
   </nav>
+
   <main>
     <div class="card">
       <h1>Consulta de Chamados</h1>
-      <p class="lead">Informe o número do chamado para consultar</p>
-      <form>
-        <label>Ticket ID
-          <input type="text" placeholder="Ex: #20251234">
-        </label>
-        <button type="submit" class="btn">🔎 Consultar</button>
+      <p class="lead">Informe o número do chamado para consultar (ou deixe em branco para listar recentes)</p>
+
+      <form id="consultaForm" novalidate>
+        <label for="ticket_id">Ticket ID</label>
+        <input id="ticket_id" name="ticket_id" type="text" placeholder="#20251234">
+        <button id="consultBtn" class="btn" type="submit">🔎 Consultar</button>
       </form>
-      <div class="result">Resultado aparecerá aqui...</div>
+
+      <div id="errorMsg" class="msg error" role="alert"></div>
+      <div id="result" class="result">Resultado aparecerá aqui...</div>
     </div>
   </main>
+
+  <script>
+    (function(){
+      const form = document.getElementById('consultaForm');
+      const resultDiv = document.getElementById('result');
+      const errorMsg = document.getElementById('errorMsg');
+      const consultBtn = document.getElementById('consultBtn');
+
+      function showError(text){
+        errorMsg.textContent = text;
+        errorMsg.style.display = 'block';
+      }
+      function clearError(){
+        errorMsg.style.display = 'none';
+      }
+
+      async function runScriptsFromContainer(container){
+        // Executa scripts presentes no conteúdo retornado (Apenas se confiar no origem)
+        const scripts = Array.from(container.querySelectorAll('script'));
+        for (const s of scripts) {
+          try {
+            const newScript = document.createElement('script');
+            if (s.src) {
+              newScript.src = s.src;
+              newScript.async = false;
+              document.body.appendChild(newScript);
+            } else {
+              newScript.textContent = s.textContent;
+              document.body.appendChild(newScript);
+            }
+          } catch (err) {
+            console.warn('Erro ao executar script retornado:', err);
+          }
+        }
+      }
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        clearError();
+        resultDiv.textContent = 'Consultando...';
+        consultBtn.disabled = true;
+
+        const ticketId = form.ticket_id.value.trim();
+        const payload = ticketId ? { ticket_id: ticketId } : {};
+
+        try {
+          const webhookUrl = 'https://evolution-lab-n8n.jxj99o.easypanel.host/webhook/consultar-chamados'; // ajuste se necessário
+          const res = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            credentials: 'omit'
+          });
+
+          if (!res.ok) {
+            const txt = await res.text().catch(()=>null);
+            throw new Error('Servidor retornou status ' + res.status + (txt ? (' — ' + txt) : ''));
+          }
+
+          const contentType = res.headers.get('Content-Type') || '';
+
+          if (contentType.includes('application/json')) {
+            const data = await res.json();
+            resultDiv.innerHTML = '<pre style="white-space:pre-wrap;">' + JSON.stringify(data, null, 2) + '</pre>';
+          } else if (contentType.includes('text/html')) {
+            const html = await res.text();
+            // Inserir HTML retornado no container e executar scripts contidos
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            // Remove scripts antes de inserir para evitar auto-execução
+            const scripts = temp.querySelectorAll('script');
+            scripts.forEach(s => s.remove());
+            resultDiv.innerHTML = '';
+            resultDiv.appendChild(temp);
+            // Agora executar scripts separadamente (somente se confiar na origem)
+            await runScriptsFromContainer(temp);
+          } else {
+            // fallback plain text
+            const txt = await res.text();
+            resultDiv.textContent = txt;
+          }
+        } catch (err) {
+          console.error('Erro na consulta:', err);
+          if (err instanceof TypeError) {
+            showError('Falha na requisição — verifique conexão ou CORS. Veja console (F12) para detalhes.');
+          } else {
+            showError('Erro ao consultar: ' + err.message);
+          }
+          resultDiv.textContent = 'Erro na consulta.';
+        } finally {
+          consultBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
