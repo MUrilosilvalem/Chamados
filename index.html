@@ -4,83 +4,94 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portal de Chamados • Início</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
       color: #1f2937;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+    }
+    header img {
+      max-height: 80px;
+    }
+    nav {
+      text-align: right;
+      padding: 10px 20px;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    nav a {
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #2563eb;
+    }
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 140px);
+      padding: 20px;
     }
     .card {
-      width: min(900px, 92vw);
-      background: rgba(255,255,255,0.96);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-      backdrop-filter: blur(6px);
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(28px, 3.5vw, 40px);
-      color: #4f46e5;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      max-width: 600px;
+      width: 100%;
       text-align: center;
     }
-    p.lead {
-      margin: 0 0 28px;
-      text-align: center;
-      color: #4b5563;
-    }
+    h1 { color: #1d4ed8; margin-bottom: 16px; }
+    p.lead { color: #4b5563; margin-bottom: 24px; }
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
+    .btn {
+      padding: 16px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      display: block;
+    }
+    .btn:hover { background: #1e40af; }
     @media (max-width: 640px) {
       .grid { grid-template-columns: 1fr; }
-    }
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 18px 20px;
-      border-radius: 14px;
-      border: 2px solid #e5e7eb;
-      background: white;
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      color: #1f2937;
-      transition: transform .15s ease, box-shadow .2s ease;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(79,70,229,0.15);
-    }
-    .footer {
-      margin-top: 26px;
-      text-align: center;
-      font-size: 14px;
-      color: #6b7280;
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>🎯 Portal de Chamados</h1>
-    <p class="lead">Escolha uma opção para continuar</p>
-    <div class="grid">
-      <a class="btn" href="./registrar_chamado.html" aria-label="Ir para página de registro de chamado">🚀 Registrar chamado</a>
-      <a class="btn" href="./consultar_chamados.html" aria-label="Ir para página de consulta de chamados">📊 Consultar chamados</a>
+  <header>
+    <img src="Logo.png" alt="Logo Castro Laboratório">
+  </header>
+  <nav>
+    <a href="./index.html">🏠 Início</a>
+    <a href="./registrar_chamado.html">🚀 Registrar</a>
+    <a href="./consultar_chamados.html">📊 Consultar</a>
+  </nav>
+  <main>
+    <div class="card">
+      <h1>Portal de Chamados</h1>
+      <p class="lead">Escolha uma opção para continuar</p>
+      <div class="grid">
+        <a class="btn" href="./registrar_chamado.html">🚀 Registrar chamado</a>
+        <a class="btn" href="./consultar_chamados.html">📊 Consultar chamados</a>
+      </div>
     </div>
-    <div class="footer">Dica: você pode publicar estes três arquivos no mesmo diretório do seu servidor.</div>
   </main>
 </body>
 </html>
