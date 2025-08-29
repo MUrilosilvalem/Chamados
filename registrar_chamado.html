@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Chamado</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .topbar {
+            max-width: 980px; margin: 0 auto 16px; display: flex; gap: 10px;
+            justify-content: flex-end;
+        }
+        .link {
+            appearance: none; border: 0; background: white; color: #4f46e5;
+            padding: 10px 14px; border-radius: 10px; font-weight: 700; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px; border: 2px solid #e5e7eb;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header { text-align: center; margin-bottom: 40px; color: #333; }
+        .header h1 { font-size: 2.0rem; margin-bottom: 10px; color: #667eea; }
+        .form-section { animation: fadeIn 0.5s ease-in; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1rem; transition: border-color 0.3s ease; background: white;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #667eea; }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .priority-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .priority-btn {
+            padding: 10px 20px; border: 2px solid #e1e5e9; border-radius: 20px; background: white;
+            cursor: pointer; transition: all 0.3s ease; font-weight: 600; flex: 1; text-align: center; min-width: 80px;
+        }
+        .priority-btn.baixa { border-color: #28a745; color: #28a745; }
+        .priority-btn.media { border-color: #ffc107; color: #ffc107; }
+        .priority-btn.alta { border-color: #dc3545; color: #dc3545; }
+        .priority-btn.critica { border-color: #6f42c1; color: #6f42c1; }
+        .priority-btn.selected.baixa { background: #28a745; color: white; }
+        .priority-btn.selected.media { background: #ffc107; color: white; }
+        .priority-btn.selected.alta { background: #dc3545; color: white; }
+        .priority-btn.selected.critica { background: #6f42c1; color: white; }
+        .submit-btn {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; margin-top: 20px;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .success-msg, .error-msg {
+            padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; font-weight: 600; display: none;
+        }
+        .success-msg { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error-msg { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) {
+            .container { padding: 20px; } .header h1 { font-size: 1.6rem; } .form-row { grid-template-columns: 1fr; } .priority-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <a class="link" href="./index.html">🏠 Início</a>
+        <a class="link" href="./consultar_chamados.html">📊 Consultar chamados</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Registrar Chamado</h1>
+            <p>Preencha o formulário para registrar seu chamado</p>
+        </div>
+
+        <div class="form-section" id="form-section">
+            <form id="ticket-form">
+                <div class="form-group">
+                    <label>Serviço *</label>
+                    <select id="servico" required>
+                        <option value="">Selecione um serviço</option>
+                        <option value="ti">💻 Tecnologia da Informação</option>
+                        <option value="manutencao">🔧 Manutenção Predial</option>
+                        <option value="limpeza">🧹 Serviços de Limpeza</option>
+                        <option value="rh">👥 Recursos Humanos</option>
+                        <option value="seguranca">🛡️ Segurança</option>
+                        <option value="compras">🛒 Compras e Suprimentos</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome *</label>
+                    <input type="text" id="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descrição *</label>
+                    <textarea id="descricao" required placeholder="Descreva detalhadamente o problema..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Local *</label>
+                    <select id="local" required>
+                        <option value="">Selecione um local</option>
+                        <option value="posto_santa_cruz">📍 Posto Santa Cruz</option>
+                        <option value="posto_avenida_brasilia">📍 Posto Avenida Brasília</option>
+                        <option value="posto_jardim_acacias">📍 Posto Jardim das Acácias</option>
+                        <option value="matriz">🏢 Matriz</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Prioridade *</label>
+                    <div class="priority-group">
+                        <div class="priority-btn baixa" data-priority="baixa">🟢 Baixa</div>
+                        <div class="priority-btn media" data-priority="media">🟡 Média</div>
+                        <div class="priority-btn alta" data-priority="alta">🟠 Alta</div>
+                        <div class="priority-btn critica" data-priority="critica">🔴 Crítica</div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">🚀 Registrar Chamado</button>
+            </form>
+            
+            <div class="success-msg" id="success-msg"></div>
+            <div class="error-msg" id="error-msg"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPriority = null;
+        
+        const serviceNames = {
+            'ti': 'Tecnologia da Informação',
+            'manutencao': 'Manutenção Predial',
+            'limpeza': 'Serviços de Limpeza',
+            'rh': 'Recursos Humanos',
+            'seguranca': 'Segurança',
+            'compras': 'Compras e Suprimentos'
+        };
+
+        const localNames = {
+            'posto_santa_cruz': 'Posto Santa Cruz',
+            'posto_avenida_brasilia': 'Posto Avenida Brasília',
+            'posto_jardim_acacias': 'Posto Jardim das Acácias',
+            'matriz': 'Matriz'
+        };
+
+        document.querySelectorAll('.priority-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedPriority = this.dataset.priority;
+            });
+        });
+
+        document.getElementById('ticket-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const selectedService = document.getElementById('servico').value;
+            const selectedLocal = document.getElementById('local').value;
+            
+            if (!selectedService || !selectedPriority || !selectedLocal) {
+                showError('Selecione um serviço, local e prioridade');
+                return;
+            }
+
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '📤 Enviando...';
+
+            const ticketId = generateTicketId();
+            
+            const ticketData = {
+                ticket_id: ticketId,
+                timestamp: new Date().toISOString(),
+                service: selectedService,
+                service_name: serviceNames[selectedService],
+                nome: document.getElementById('nome').value,
+                descricao: document.getElementById('descricao').value,
+                local: selectedLocal,
+                local_name: localNames[selectedLocal],
+                prioridade: selectedPriority
+            };
+
+            try {
+                const webhookUrl = 'https://evolution-lab-n8n.jxj99o.easypanel.host/webhook/chamados';
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ticketData)
+                });
+
+                if (response.ok) {
+                    showSuccess(`✅ Chamado ${ticketId} registrado!\n📧 O departamento responsável foi notificado.\n📊 Acompanhe o status na planilha compartilhada.`);
+                    this.reset();
+                    resetSelections();
+                } else {
+                    throw new Error('Erro ao enviar chamado');
+                }
+
+            } catch (error) {
+                showError('❌ Erro ao registrar chamado. Verifique a conexão e tente novamente.');
+                console.error('Erro:', error);
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🚀 Registrar Chamado';
+        });
+
+        function generateTicketId() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const random = Math.floor(Math.random() * 9000) + 1000;
+            return `#${year}${random}`;
+        }
+
+        function showSuccess(message) {
+            const successMsg = document.getElementById('success-msg');
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+            document.getElementById('error-msg').style.display = 'none';
+            
+            setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('error-msg');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+            document.getElementById('success-msg').style.display = 'none';
+        }
+
+        function resetSelections() {
+            selectedPriority = null;
+            document.querySelectorAll('.priority-btn').forEach(btn => btn.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>
